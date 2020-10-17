@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="koreaTire" class="com.edu.mycar05.KoreaTire" />
+	<bean id="americaTire" class="com.edu.mycar05.AmericaTire" />
+	
+	
+	
+	<!--  메서드를 프로퍼티 라고도 한다. -->
+	<bean id="car" class="com.edu.mycar05.Car" >
+	
+	<!--  월래는 setTire,getTire 니까  앞에 겟,셋을 빼고 대문자를 소문자로 바꿔주는것이다. -->
+		<property name="tire" ref="koreaTire"></property>
+ <!--  		<property name="tire" ref="AmericaTire"></property>
+-->	
+	</bean>
+	
+	
+</beans>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<!--  클래스들을 빈으로 저장한다 패키지명까지 다 써주어야한다.
+	빈으로 등록하면서 메모리에 올라간다.  -->
+	<bean id="tire" class="com.edu.mycar04.KoreaTire" />
+	<bean id="americaTire" class="com.edu.mycar04.AmericaTire" />
+	<bean id="car" class="com.edu.mycar04.Car" />
+	
+	
+</beans>
