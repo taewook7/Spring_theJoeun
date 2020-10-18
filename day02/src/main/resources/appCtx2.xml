@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- MemberDao memberDao =new MemberDao();  자바에서는 이렇게 생성해서 사용했다. -->
+	<!-- 스프링에서는 아래와 같다. -->
+	<bean id="memberDao" class="com.edu.di01.spring.MemberDao"></bean>
+	
+	
+	<!-- <constructor-arg> 태그를 사용하면 생성자를 이용해서 필요한 의존 객체를 주입하는 설정을 한다. -->
+	
+	
+	<!--  생성자를 빈으로 만들때 매개변수는 MemberDao memberDao 이므로 아래와 같이 쓴다. -->
+	<bean id="memberRegSvc" class="com.edu.di01.spring.MemberRegisterService" >
+		<constructor-arg ref="memberDao"></constructor-arg>
+	</bean>
+	
+	<bean id="changePwdSvc" class="com.edu.di01.spring.ChangePasswordService">
+		<constructor-arg ref="memberDao"></constructor-arg>
+	</bean>
+	
+	<bean id="memberPrinter" class="com.edu.di01.spring.MemberPrinter"></bean>
+	<bean id="listPrinter" class="com.edu.di01.spring.MemberListPrinter">
+		<constructor-arg ref="memberDao"></constructor-arg>
+		<constructor-arg ref="memberPrinter"></constructor-arg>
+	</bean>
+	
+</beans>
