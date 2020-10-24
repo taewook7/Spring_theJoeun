@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+
+	<!--  namespaces 가서 context 체크해줘야 위에 구문 한줄 추가되고 오류 사라짐  -->
+	<context:annotation-config/>
+	
+	
+	<bean id="memberDao" class="com.edu.di02.spring.MemberDao" />
+	
+	<bean id="memberRegSvc" class="com.edu.di02.spring.MemberRegisterService" >
+	 	<!--  autowird 가 있으니 아래는 안써도된다.주석처리해준다. -->
+		<!--  <constructor-arg ref="memberDao" /> -->
+	</bean>
+	
+	<bean id="memberPrinter" class="com.edu.di02.spring.MemberPrinter" />
+	
+	<bean id="infoPrinter" class="com.edu.di02.spring.MemberInfoPrinter"/>	
+	
+	
+</beans>
