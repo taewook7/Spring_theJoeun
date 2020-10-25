@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd
+		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	
+	<!-- DB설정을 위한 빈을 셋팅해주자. 
+	1.Driver 로딩
+	2.아디,비번 등 커넥션 설정
+	3.SQL문을 만들고 커넥션설정한곳에 연결한곳에 프리
+	 -->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"/>
+		<!-- 
+		examuser는 작업스키마
+		&amp; 는 and 라는 의미이다. 
+		useSSL 뭐가 뜨면 false 안한다는 의미이고  시간대를 UTC로 설정.   -->
+		<property name="url" value="jdbc:log4jdbc:mysql://127.0.0.1:3306/examdb?useSSL=false&amp;serverTimezone=UTC"/>
+		<property name="username" value="examuser"/>
+		<property name="password" value="1234"/>
+	</bean>
+	
+	<!-- SqlSessionFactory : DB 연결하고 SQL의 실행에 대한 것을 가진 객체  -->	
+	<!-- dataSource 빈과 연관관계가 있어야한다. -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!--  위에서 만든 dataSource 를참조하겠다.라고해서 ref 를 씀  -->
+		<property name="dataSource" ref="dataSource"></property>
+		<!-- mybatis-config.xml 이 스프링 시작될 때 같이 실행되도록 설정한다. -->
+		<!--  <property name="configLocation" value="classpath:/mybatis-config.xml"></property> -->
+		<!-- 이제 쿼리문장을 만들것이다 . XML Mapper 를 인식하도록 설정한다. 
+		별이 2개붙은이유는 하위폴더가 몇개든간에 ~  마지막엔 앞에뭐가붙든 상관없이 Mapper.xml 에 대해서만 -->
+		<!--  <property name="mapperLocations" value="classpath:mapper/**/*Mapper.xml"></property> -->
+	</bean>
+	
+	<!-- SqlSession  -->
+	<!--  destroy 는 종료될때 캐시를 다 비우겠단 말이다. -->
+	<!--  SqlSessionTemplate 는 기본적인 트랜잭션 관리, 등의 안정성을 보장하고, DB연결과 종료를 관리한다. -->
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache">
+			<!-- constructor는 생성자에 넣을때 
+			property는 set메서드이다. -->
+			<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	
+	<context:component-scan base-package="com.edu.board"></context:component-scan>
+</beans>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
