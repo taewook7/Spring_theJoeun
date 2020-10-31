@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD config 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+	<!-- 다른 Mapper와 중복되지 않도록 네임스페이스를 기재한다. -->
+	<!-- **** namespace 의 내용이 DAOImpl의 내용과 같아야 한다. -->
+	<mapper namespace="com.edu.board.mapper.BoardMapper">
+		<!--  게시글 자료 등록 -->
+		<insert id="insertBoard">
+			INSERT INTO s_board (b_title,b_writer,b_detail, b_date)
+			values (#{b_title},#{b_writer},#{b_detail} ,sysdate() )
+		</insert>		
+	
+		<!-- 게시글 목록 보기 -->
+		<select id="listBoard" resultType="com.edu.board.dto.BoardDTO">
+		<![CDATA[
+			select * from s_board order by b_no DESC
+		]]>
+		</select>
+	
+		<!--  게시글 상세 보기 -->
+		<select id="detailBoard" resultType="com.edu.board.dto.BoardDTO">
+		select * from s_board where b_no = #{b_no}
+		
+		</select>
+		
+		<!-- 게시번호에 해당하는 데이터를 삭제 -->
+		<delete id="deleteBoard">
+		<![CDATA[
+		DeLeTe FrOm s_BoArD WhEre b_no =#{b_no}
+		]]>
+		</delete>
+		
+		
+		
+	
+	</mapper>
