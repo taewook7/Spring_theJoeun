@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+
+	<!-- 다른 Mapper와 중복되지 않도록 네임스페이스를 기재한다. -->
+	<!-- **** namespace의 내용이 DAOImpl의 내용과 같아야 한다. -->
+	<mapper namespace="com.edu.member.mapper.MemberMapper">
+	
+		<select id="login_check" resultType="String">
+			SELECT	name
+			FROM	tbl_member
+			WHERE	userid=#{userid} AND passwd=#{passwd}
+		</select>
+
+		<!-- 회원가입 -->
+		<insert id="register">
+	    INSERT INTO TBL_MEMBER
+	    		( USERID, PASSWD, NAME 	)
+	    VALUES  ( #{userid}, #{passwd}, #{name} )
+	    </insert>
+    
+    	<!-- 로그인 -->
+    	<select id="login" resultType="com.edu.member.dto.MemberDTO">
+    	SELECT	userid, passwd, name
+    	FROM	tbl_member
+    	WHERE	userid = #{userid}
+    	AND		passwd = #{passwd}
+    	</select>
+    
+<!--     	회원정보 수정 -->
+		<update id="memberUpdate">
+			<![CDATA[
+				update tbl_member 
+				set passwd = #{passwd} , name = #{name} where userid=#{userid}
+			]]>
+		</update>
+    
+    	<!-- 회원 탈퇴 -->
+    	<delete id="memberDelete">
+    		<![CDATA[
+    		delete 
+    		from tbl_member
+    		where userid = #{userid}
+    		and passwd = #{passwd}
+    		]]>
+    	</delete>
+    
+<!--     	아이디 중복 검사 -->
+		<select id="idCheck" resultType="int">
+			select count(*) from tbl_member where userid= #{userid}
+		</select>
+	</mapper>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+ 
