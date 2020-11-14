@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+
+	<!-- 다른 Mapper와 중복되지 않도록 네임스페이스를 기재한다. -->
+	<!-- **** namespace의 내용이 DAOImpl의 내용과 같아야 한다. -->
+	<mapper namespace="com.edu.board.mapper.BoardMapper">
+	
+		<!-- 게시글 자료 등록 -->
+		<insert id="insertBoard">
+		INSERT	INTO 	s_board
+						(b_title, b_writer, b_detail, b_date)
+				VALUES 	(#{b_title}, #{b_writer}, #{b_detail}, SYSDATE() )
+		</insert>
+		
+		<!-- 게시글 목록 보기 -->	
+		<select id="listBoard" resultType="com.edu.board.dto.BoardDTO">
+		<![CDATA[
+		SELECT	*
+		FROM	s_board
+		ORDER BY b_no DESC
+		]]>
+		</select>
+		
+		<!-- 게시번호에 해당하는 정보 출력 -->
+		<select id="detailBoard" resultType="com.edu.board.dto.BoardDTO">
+		SELECT	*
+		FROM	s_board
+		WHERE	b_no = #{b_no}
+		</select>
+	
+		<!-- 게시번호에 해당하는 데이터를 삭제 -->
+		<delete id="deleteBoard">
+		DELETE	FROM	s_board
+		WHERE	b_no = #{b_no}
+		</delete>
+	
+		<!-- 게시글 정보 수정 -->
+		<!-- 게시글 번호(b_no)에 해당하는 제목(b_title)과 내용(b_detail)을 수정한다. -->
+		<update id="updateBoard">
+		UPDATE	s_board
+		SET		b_title = #{b_title}, b_detail = #{b_detail}
+		WHERE	b_no = #{b_no}
+		</update>
+	</mapper>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+ 

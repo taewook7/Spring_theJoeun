@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd
+		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<bean id = "dataSource" class = "org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<!-- 
+		<property name="driverClassName" value = "com.mysql.cj.jdbc.Driver"></property>
+		<property name="url" value = "jdbc:mysql://127.0.0.1:3306/examdb?useSSL=false&amp;serverTimezone=UTC"></property> 
+		-->
+		<property name="driverClassName" value = "net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
+		<property name="url" value = "jdbc:log4jdbc:mysql://127.0.0.1:3306/examdb?useSSL=false&amp;serverTimezone=UTC"></property>
+		<property name="username" value = "examuser"></property>
+		<property name="password" value = "1111"></property>
+	</bean>
+	
+	<!-- SqlSessionFactory : DB연걸과 SQL 의 실행에 대한것을 가진 객체 -->
+	<!-- mybatis SqlSessionFactoryBean -->
+	<bean id = "sqlSessionFactory" class = "org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref = "dataSource"></property>
+		<!-- mybatis-config.xml 이 스프링 시작될 때 같이 실행되도록 설정한다. -->
+		<property name="configLocation" value = "classpath:/mybatis-config.xml"></property>
+
+		<!-- XML Mapper를 인식하도록 설정한다. -->
+		<property name="mapperLocations" value = "classpath:mapper/**/*Mapper.xml"></property>
+	</bean>
+
+	<!-- SqlSession -->
+	<!-- SqlSessionTemplate는 기본적인 트랜잭션 관리 등의 안정성을 보장하고, DB연결과 종료를 관리한다. -->
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" destroy-method = "clearCache">
+		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>	
+
+	<context:component-scan base-package="com.edu.board.dao"></context:component-scan>
+	<context:component-scan base-package="com.edu.member.dao"></context:component-scan>
+</beans>
